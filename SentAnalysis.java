@@ -308,9 +308,8 @@ public class SentAnalysis {
 		
 		System.out.println(new Time(System.currentTimeMillis()).toGMTString().toString());
 		
-		
+		labelAndPredictTrain.saveAsTextFile("hdfs://localhost:9000/bigdata/project/train.csv");
+		labelAndPredictValid.saveAsTextFile("hdfs://localhost:9000/bigdata/project/valid.csv");
 	}
-
-
 }
 

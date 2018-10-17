@@ -14,4 +14,4 @@ First of all, a sentiment analysis is the process of determining the attitude (p
 * **Gradient Boosting**: In order to build a predictive model for this project, it was used a machine learning boosting technique called, *Gradient Boosting*. 
 * **Bag of Words - HashingTF**: The Bag-of-Words model (BoW) is a way of representing text data in Natural Language Processing (NPL) and extracting features from text to use in modeling.
 * **HDFS**: Spark is an optimal choice for big data processing, although it does not come with its own le management system, so we considered Hadoop Distributed File System(HDFS).
-* (Extra)*D3.js*: Finally, regarding the visualisation of the results coming from the analysis, it was chosen a JavaScript library, D3.js, which focused in manipulating documents based on data. In the file **HTML** there are some examples used to several databases.
+* (Extra)*D3.js*: Finally, regarding the visualisation of the results coming from the analysis, it was chosen a JavaScript library, D3.js, which focused in manipulating documents based on data. In the file **HTML** there are some examples used to several database.
