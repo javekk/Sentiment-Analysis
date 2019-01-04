@@ -38,7 +38,7 @@ object RunSent{
 		 * What about the "I am not happy" case???? --> Not handle
 		 */
 
-    val tweetDF = spark.read.option("mode", "DROPMALFORMED").csv("/home/jave/Documents/Madrid_eit_uni/mini_project-2/tweet_text_02_1M.csv")
+    val tweetDF = spark.read.option("mode", "DROPMALFORMED").csv("/<path>t.csv")
     tweetDF.show()
 
     var text = tweetDF.select("_c2").withColumnRenamed("_c2", "text")
