@@ -88,7 +88,7 @@ public class SentAnalysis {
 				.read()
 				.option("mode", "DROPMALFORMED")
 				.schema(schemaText)
-				.csv("/home/jave/Documents/UNIMASTER/bigData/data_02/tweet_text_02.csv");
+				.csv("<path>/dataset.csv");
 
 		text = text.select(col("text"));
 
