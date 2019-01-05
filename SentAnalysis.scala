@@ -12,7 +12,7 @@ import scala.util.{Success, Try}
 
 
 
-object RunSent{
+object SentAnalysis{
 
   def main(args: Array[String]): Unit = {
 
@@ -20,7 +20,7 @@ object RunSent{
     Logger.getLogger("akka").setLevel(Level.OFF)
 
 
-    val conf = new SparkConf().setAppName("mini-project2").setMaster("local")
+    val conf = new SparkConf().setAppName("SentAnalysis").setMaster("local")
     val sc = new SparkContext(conf)
 
     val spark = SparkSession
