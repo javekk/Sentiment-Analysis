@@ -3,8 +3,7 @@
 In this project it is implement a model for a simple sentiment analysis, using Spark, HDFS and Scala/Java
 
 
-This analysis is structured in a sequence of steps, those of which could be procedures for transforming data or specic algorithms to analyse the data itself.
-First of all, a sentiment analysis is the process of determining the attitude (positive or negative) of the writer with respect to a particular topic. In particular, in this case the model produced focuses on the classication of each distinct tweet over a polarity dened as **happy** or **sad**.
+This analysis is structured in a sequence of steps and in which it is implemented a process for determining the attitude (positive or negative) of the writer with respect to a particular topic. In particular, in this case the model produced focuses on the classication of each distinct tweet over a polarity dened as **happy** or **sad**.
 
 
 ## Technologies and Algorithms 
