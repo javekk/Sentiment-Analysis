@@ -1,6 +1,6 @@
 # Sentiment-Analysis
 
-Project it is implement a model for a simple sentiment analysis, using Spark, HDFS and Scala/Java
+In this project it is implement a model for a simple sentiment analysis, using Spark, HDFS and Scala/Java
 
 
 This analysis is structured in a sequence of steps, those of which could be procedures for transforming data or specic algorithms to analyse the data itself.
