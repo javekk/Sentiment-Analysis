@@ -6,13 +6,13 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.tree.GradientBoostedTrees
 import org.apache.spark.mllib.tree.configuration.BoostingStrategy
 import org.apache.spark.sql.SparkSession
+import com.johnsnowlabs.nlp.pretrained.pipelines.en.SentimentPipeline
 
 import scala.util.{Success, Try}
 
 
 
-
-object SentAnalysis{
+object RunSent{
 
   def main(args: Array[String]): Unit = {
 
@@ -20,7 +20,7 @@ object SentAnalysis{
     Logger.getLogger("akka").setLevel(Level.OFF)
 
 
-    val conf = new SparkConf().setAppName("SentAnalysis").setMaster("local")
+    val conf = new SparkConf().setAppName("mini-project2").setMaster("local")
     val sc = new SparkContext(conf)
 
     val spark = SparkSession
@@ -38,7 +38,7 @@ object SentAnalysis{
 		 * What about the "I am not happy" case???? --> Not handle
 		 */
 
-    val tweetDF = spark.read.option("mode", "DROPMALFORMED").csv("/<path>t.csv")
+    val tweetDF = spark.read.option("mode", "DROPMALFORMED").csv("/home/jave/Documents/Madrid_eit_uni/mini-project-2/tweet_text_02_2M.csv")
     tweetDF.show()
 
     var text = tweetDF.select("_c2").withColumnRenamed("_c2", "text")
@@ -60,49 +60,56 @@ object SentAnalysis{
     val countUnhappy = unhappyMessages.count()
     println("Unhappy Messages: " + countUnhappy)
 
-    val smallest = Math.min(countHappy, countUnhappy).toInt
+    val limit = Math.min(countHappy, countUnhappy).toInt
 
     /*
 		 * We keep an equal number sad and happy tweets in order prevent bias in the model
 		 * then we create a new view using an an equal number of happy and sad tweets
 		 */
-    var tweets = happyMessages.limit(smallest).union(unhappyMessages.limit(smallest))
+    var tweets = happyMessages.limit(limit).union(unhappyMessages.limit(limit))
     tweets.show()
 
 
     /*
 		 * @LABELINGOFDATA
-		 * We remove the word happy and sad (or similar) from the tweet in order to
-		 * infer the happiness or the sadness only via the other words, and also
-		 * we label each tweet as 1 if happy or 0 if sad
+		 * I use an NLP <see other class>
 		 */
+
     val messagesRDD = tweets.rdd
-    val goodBadRecords = messagesRDD.map(
+    val tmp= SentimentTraining.trainingMe(tweets).rdd
+    val records = tmp.map(
       row =>{
         Try{
-          val msg = row(0).toString.toLowerCase()
-          var isHappy:Int = 0
-          if(msg.contains(" sad")){
-            isHappy = 0
-          }else if(msg.contains("happy")){
+          val sentiment= row(1).toString.toLowerCase()
+          var msgSanitized = sentiment.replace("max", "max") // placeholder
+          var isHappy = 0
+          if(sentiment.contains("positive")){
             isHappy = 1
+            msgSanitized = sentiment.replace("positive", "1")
+          }else if(sentiment.contains("negative")){
+            msgSanitized = sentiment.replace("negative", "0")
+            isHappy = 0
           }
-          var msgSanitized = msg.replaceAll("happy", "")
-          msgSanitized = msgSanitized.replaceAll("sad","")
           //Return a tuple
-          (isHappy, msgSanitized.split(" ").toSeq)
+          (isHappy, row(0).toString.split(" ").toSeq)
         }
       }
     )
 
+    println("RECORDS")
+    records.take(20).foreach(x => println(x+"e"))
+
+
     //We use this syntax to filter out exceptions
-    val exceptions = goodBadRecords.filter(_.isFailure)
+    val exceptions = records.filter(_.isFailure)
     println("total records with exceptions: " + exceptions.count())
-    exceptions.take(10).foreach(x => println(x.failed))
-    var labeledTweets = goodBadRecords.filter((_.isSuccess)).map(_.get)
+
+    exceptions.take(20).foreach(x => println(x+"e"))
+
+    var labeledTweets = records.filter((_.isSuccess)).map(_.get)
     println("total records with successes: " + labeledTweets.count())
 
-    labeledTweets.take(10).foreach(x => println(x))
+    labeledTweets.take(20).foreach(x => println(x+"l"))
 
 
     /*
@@ -216,7 +223,6 @@ object SentAnalysis{
         }
       }
     )
-
     println("Validation Set ")
     println("    unhappy messages" + unhappyTotal)
     println("    happy messages: " + happyTotal)
@@ -227,5 +233,8 @@ object SentAnalysis{
     println("    test error: " + testErrVa)
 
 
+
+
   }
+
 }
