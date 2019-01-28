@@ -27,7 +27,7 @@ object SentimentTraining  {
 
     val training = spark.read
       .option("mode", "DROPMALFORMED")
-      .csv("train.csv")
+      .csv("trainNLP.csv")
       .withColumnRenamed("_c0", "train_text")
       .withColumnRenamed("_c1","train_sentiment")
 
