@@ -34,6 +34,6 @@ We use gradient boosting algorithm and it excepts a fixed-length array of number
 
 First we split the dataset into training and testing set and we finally apply Gradient Boosting, the parameters in which we can tweak to take into account are (1) **percentage of splitting** between the two sets, (2) **number of iterations** over the data and (3) **maximum deep** of each tree. After that we are done, and we can evaluate the model, comparing the predictions with the actual values, and than if it possible for example to plot this data in some graphic, using D3js for example (as I did).
 
-#### Java version
+### Java version
 
 Regarding the implementation of the Java version there are some important differences, mainly due on the fact we do not use NLP here but a simpler approach. In this implementation we simply take only the tweets contain the word 'happy' or 'sad' and we label a tweet contains 'happy' as happy indeed, and vice-versa with sad, and we remove the others tweets :D .
