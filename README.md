@@ -32,7 +32,7 @@ We use gradient boosting algorithm and it excepts a fixed-length array of number
 
 ##### Build and evaluate the model
 
-First we split the dataset into training and testing set and we finally apply Gradient Boosting, the parameters in which we can tweak to take into account are (1) **percentage of splitting** between the two sets, (2) **number of iterations** over the data and (3) **maximum deep** of each tree. [here]() some tests I did on my pc. After that we are done, and we can evaluate the model, comparing the predictions with the actual values.
+First we split the dataset into training and testing set and we finally apply Gradient Boosting, the parameters in which we can tweak to take into account are (1) **percentage of splitting** between the two sets, (2) **number of iterations** over the data and (3) **maximum deep** of each tree. [here]() some tests I did on my pc. After that we are done, and we can evaluate the model, comparing the predictions with the actual values, and than if it possible for example to plot this data in some graphic, using D3js for example (as I did).
 
 #### Java version
 
