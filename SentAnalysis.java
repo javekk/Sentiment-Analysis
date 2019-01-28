@@ -40,14 +40,6 @@ public class SentAnalysis {
 	static long sadTotal = 0;
 	static long happyCorrect = 0;
 	static long sadCorrect = 0;
-	
-	/*
-	 * The Schema of tweets' text
-	 * We are going to use only Text
-	 * 
-	 * 		tweetText(tweet_id,user_id,text)
-	 * 
-	 */
 	static StructType schemaText = new StructType()
 			.add("tweet_id", "long")
 			.add("user_id", "long")
@@ -57,14 +49,7 @@ public class SentAnalysis {
 			.add("place_full_name", "String")
 			.add("place_id", "long");
 
-	/*
-	 * 
-	 * 
-	 * @author Raffaele Perini, Giovanni Rafaèl Vuolo
-	 * 
-	 * 
-	 * 
-	 */
+	
 	public static void main(String[] args) {
 
 		// SparkSession
@@ -128,13 +113,6 @@ public class SentAnalysis {
 		Dataset<Row> tmp1 = happyTweet.limit((int) minNumber).union(sadTweet.limit((int) minNumber));	//LOOK FOR UNIONALL
 		tmp1.show();
 
-		/*
-		 * @LABELINGOFDATA
-		 * We remove the word happy and sad (or similar) from the tweet in order to 
-		 * infer the happiness or the sadness only via the other words, and also 
-		 * we label each tweet as 1 if happy or 0 if sad
-		 */
-
 		JavaRDD<Row> textRdd = tmp1.javaRDD();
 
 		JavaRDD<Tuple2<Integer,String[]>> statusAndSplit = textRdd.map(
@@ -168,13 +146,6 @@ public class SentAnalysis {
 
 		/*
 		 * @DATATRANSFORMATION
-		 * We use a Gradient Boosting algorithm that excepts an array of fixed lenght of number
-		 * we hash each word into an fixed-lenght array
-		 * we get an array that represents the count of ecah word in the tweet
-		 * we use Bag-Of-Words 
-		 * for implement bow we use hashingTF
-		 * we use an array of 3000 that seems it is enough
-		 * since 3000 < #ofwords it is possibile that two or more words 
 		 */
 
 		HashingTF hashingTF = new HashingTF(3000);
@@ -209,10 +180,6 @@ public class SentAnalysis {
 		
 		/*
 		 * @BUILDTHEMODEL
-		 * 30 passes over the trainingset
-		 * 2 classes, happy or sad
-		 * 6 depth of each tree. The higher it is, the higher probability of overfitting
-		 * the lower it is, the simpler the model is
 		 */
 		
 		BoostingStrategy bs = BoostingStrategy.defaultParams("Classification");
@@ -224,8 +191,6 @@ public class SentAnalysis {
 		
 		/*
 		 * @EVALUATETHEMODEL
-		 * 
-		 * 
 		 */
 		
 		JavaRDD<Tuple2<Double,Double>> labelAndPredictTrain = trainingData.map(
