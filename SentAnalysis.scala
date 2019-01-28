@@ -6,7 +6,6 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.tree.GradientBoostedTrees
 import org.apache.spark.mllib.tree.configuration.BoostingStrategy
 import org.apache.spark.sql.SparkSession
-import com.johnsnowlabs.nlp.pretrained.pipelines.en.SentimentPipeline
 
 import scala.util.{Success, Try}
 
@@ -31,52 +30,22 @@ object RunSent{
 
     /*
 		 * @FROMRAWDATATODATAFRAME
-		 * Let's start with clean the record,
-		 * We want to remove any tweet that doesn’t contain “happy” or “sad”. Why? 'coz
-		 * we can easily make the assumption that if a tweet contains happy it's an happy
-		 * tweet, and the same for sad.
-		 * What about the "I am not happy" case???? --> Not handle
+		 * We use a Twitter dataset, but we care only about the tweet text
 		 */
 
-    val tweetDF = spark.read.option("mode", "DROPMALFORMED").csv("/home/jave/Documents/Madrid_eit_uni/mini-project-2/tweet_text_02_2M.csv")
+    val tweetDF = spark.read.option("mode", "DROPMALFORMED").csv("tweets.csv")
     tweetDF.show()
-
-    var text = tweetDF.select("_c2").withColumnRenamed("_c2", "text")
-    text.show()
-
 
     var messages = text.select("text")
     println("Total messages: " + messages.count())
 
-
-    /*
-		 * Keep only the tweet that contains happy or sad, in order to be able to label them
-		 */
-    var happyMessages = messages.filter(messages("text").contains("happy"))
-    val countHappy = happyMessages.count()
-    println("Number of happy messages: " +  countHappy)
-
-    var unhappyMessages = messages.filter(messages("text").contains(" sad"))
-    val countUnhappy = unhappyMessages.count()
-    println("Unhappy Messages: " + countUnhappy)
-
-    val limit = Math.min(countHappy, countUnhappy).toInt
-
-    /*
-		 * We keep an equal number sad and happy tweets in order prevent bias in the model
-		 * then we create a new view using an an equal number of happy and sad tweets
-		 */
-    var tweets = happyMessages.limit(limit).union(unhappyMessages.limit(limit))
-    tweets.show()
-
-
+    
     /*
 		 * @LABELINGOFDATA
 		 * I use an NLP <see other class>
 		 */
 
-    val messagesRDD = tweets.rdd
-    val tmp= SentimentTraining.trainingMe(tweets).rdd
+    val tmp= SentimentTraining.trainingMe(messages).rdd
     val records = tmp.map(
       row =>{
         Try{
@@ -115,14 +84,14 @@ object RunSent{
     /*
 		 * @DATATRANSFORMATION
 		 * We use a Gradient Boosting algorithm that excepts an array of fixed lenght of number
-		 * we hash each word into an fixed-lenght array
+		 * we hash the words into an fixed-lenght array
 		 * we get an array that represents the count of ecah word in the tweet
 		 * we use Bag-Of-Words
 		 * for implement bow we use hashingTF
 		 * we use an array of 3000 that seems it is enough
 		 * since 3000 < #ofwords it is possible that two or more words
 		 */
-    val hashingTF = new HashingTF(3000)
+    val hashingTF = new HashingTF(2000)
 
     //Map the input strings to a tuple of labeled point + input text
     val input_labeled = (labeledTweets.map(
@@ -131,7 +100,7 @@ object RunSent{
 
     input_labeled.take(10).foreach(println)
 
-
+  
     /*
 		 * @SPLITOFSETS
 		 * 30% for the validation set
@@ -149,9 +118,9 @@ object RunSent{
 		 * the lower it is, the simpler the model is
 		 */
     val boostingStrategy = BoostingStrategy.defaultParams("Classification")
-    boostingStrategy.setNumIterations(30) //number of passes over our training data
+    boostingStrategy.setNumIterations(25) //number of passes over our training data
     boostingStrategy.treeStrategy.setNumClasses(2) //We have two output classes: happy and sad
-    boostingStrategy.treeStrategy.setMaxDepth(5)
+    boostingStrategy.treeStrategy.setMaxDepth(7)
 
     val model = GradientBoostedTrees.train(trainingData, boostingStrategy)
 
