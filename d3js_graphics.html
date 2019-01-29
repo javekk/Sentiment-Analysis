@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    
+    <body>
+
+        <h1>Amount of error for different size of dataset</h1>
+        <div><p><div style="display:inline-block;background-color:#1F77B4;width:12px;height:12px"></div>Training Error</p></div>
+        <div><p><div style="display:inline-block;background-color:#ff7f0e;width:12px;height:12px"></div>Testing Error</p></div>
+        <svg width="960" height="500" id="svg1"></svg>
+
+        <div><p><div style="display:inline-block;background-color:#1F77B4;width:12px;height:12px"></div>Training Error</p></div>
+        <div><p><div style="display:inline-block;background-color:#ff7f0e;width:12px;height:12px"></div>Testing Error</p></div>
+        <svg width="960" height="500" id="svg2"></svg>
+
+        <h1>Percentage of happy vs sad tweets for different topics</h1>
+        <div><p><div style="display:inline-block;background-color:#1F77B4;width:12px;height:12px"></div>Happy</p></div>
+        <div><p><div style="display:inline-block;background-color:#ff7f0e;width:12px;height:12px"></div>Sad</p></div>
+        <svg width="960" height="500" id="svg3"></svg>
+        
+    </body>
+
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+<script>
+
+        var data = [    
+          {month: "0.1-millions tweets", happy: 0.034666666666666665, sad: 0.1935483870967742},   
+          {month: "1-millions tweets", happy: 0.16855172413793104, sad: 0.2160454832596336},
+          {month: "2-millions tweets", happy: 0.18596669632642684, sad: 0.20844174616941313},
+          {month: "3-millions tweets", happy: 0.17988798796288558, sad: 0.2096193902669949} 
+        ];
+        
+        var series = d3.stack()
+            .keys(["happy", "sad"])
+            .offset(d3.stackOffsetDiverging)
+            (data);
+        var svg = d3.select("#svg1"),
+            margin = {top: 20, right: 30, bottom: 30, left: 60},
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+        var x = d3.scaleBand()
+            .domain(data.map(function(d) { return d.month; }))
+            .rangeRound([margin.left, width - margin.right])
+            .padding(0.1);
+        var y = d3.scaleLinear()
+            .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
+            .rangeRound([height - margin.bottom, margin.top]);
+        var z = d3.scaleOrdinal(d3.schemeCategory10);
+        svg.append("g")
+          .selectAll("g")
+          .data(series)
+          .enter().append("g")
+            .attr("fill", function(d) { return z(d.key); })
+          .selectAll("rect")
+          .data(function(d) { return d; })
+          .enter().append("rect")
+            .attr("width", x.bandwidth)
+            .attr("x", function(d) { return x(d.data.month); })
+            .attr("y", function(d) { return y(d[1]); })
+            .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        svg.append("g")
+            .attr("transform", "translate(0," + y(0) + ")")
+            .call(d3.axisBottom(x));
+        svg.append("g")
+            .attr("transform", "translate(" + margin.left + ",0)")
+            .call(d3.axisLeft(y));
+        function stackMin(serie) {
+          return d3.min(serie, function(d) { return d[0]; });
+        }
+        function stackMax(serie) {
+          return d3.max(serie, function(d) { return d[1]; });
+        }
+        </script>
+
+
+
+
+<script>
+
+var data = [    
+  {month: "0.1-millions tweets", happy: 0.034666666666666665, sad: -0.1935483870967742},   
+  {month: "1-millions tweets", happy: 0.09855172413793104, sad: -0.1560454832596336},
+  {month: "2-millions tweets", happy: 0.08596669632642684, sad: -0.13844174616941313},
+  {month: "3-millions tweets", happy: 0.07988798796288558, sad: -0.1096193902669949} 
+];
+
+var series = d3.stack()
+    .keys(["happy", "sad"])
+    .offset(d3.stackOffsetDiverging)
+    (data);
+var svg = d3.select("#svg2"),
+    margin = {top: 20, right: 30, bottom: 30, left: 60},
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+var x = d3.scaleBand()
+    .domain(data.map(function(d) { return d.month; }))
+    .rangeRound([margin.left, width - margin.right])
+    .padding(0.1);
+var y = d3.scaleLinear()
+    .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
+    .rangeRound([height - margin.bottom, margin.top]);
+var z = d3.scaleOrdinal(d3.schemeCategory10);
+svg.append("g")
+  .selectAll("g")
+  .data(series)
+  .enter().append("g")
+    .attr("fill", function(d) { return z(d.key); })
+  .selectAll("rect")
+  .data(function(d) { return d; })
+  .enter().append("rect")
+    .attr("width", x.bandwidth)
+    .attr("x", function(d) { return x(d.data.month); })
+    .attr("y", function(d) { return y(d[1]); })
+    .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+svg.append("g")
+    .attr("transform", "translate(0," + y(0) + ")")
+    .call(d3.axisBottom(x));
+svg.append("g")
+    .attr("transform", "translate(" + margin.left + ",0)")
+    .call(d3.axisLeft(y));
+function stackMin(serie) {
+  return d3.min(serie, function(d) { return d[0]; });
+}
+function stackMax(serie) {
+  return d3.max(serie, function(d) { return d[1]; });
+}
+</script>
+
+<script>
+
+        var data = [    
+          {month: "pizza", happy: 73, sad: 27},   
+          {month: "america", happy: 71, sad: 29},
+          {month: "love", happy: 44, sad: 56},
+          {month: "smile", happy: 54, sad: 46},
+          {month: "Boston", happy: 34, sad: 66},
+          {month: "cat", happy: 52, sad: 48},
+          {month: "dog", happy: 47, sad: 53},
+          {month: "math", happy: 55, sad: 45},
+          {month: "politic", happy: 15, sad: 85},
+          {month: "war", happy: 35, sad: 65}
+        ];
+        
+        var series = d3.stack()
+            .keys(["happy", "sad"])
+            .offset(d3.stackOffsetDiverging)
+            (data);
+        var svg = d3.select("#svg3"),
+            margin = {top: 20, right: 30, bottom: 30, left: 60},
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+        var x = d3.scaleBand()
+            .domain(data.map(function(d) { return d.month; }))
+            .rangeRound([margin.left, width - margin.right])
+            .padding(0.1);
+        var y = d3.scaleLinear()
+            .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
+            .rangeRound([height - margin.bottom, margin.top]);
+        var z = d3.scaleOrdinal(d3.schemeCategory10);
+        svg.append("g")
+          .selectAll("g")
+          .data(series)
+          .enter().append("g")
+            .attr("fill", function(d) { return z(d.key); })
+          .selectAll("rect")
+          .data(function(d) { return d; })
+          .enter().append("rect")
+            .attr("width", x.bandwidth)
+            .attr("x", function(d) { return x(d.data.month); })
+            .attr("y", function(d) { return y(d[1]); })
+            .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        svg.append("g")
+            .attr("transform", "translate(0," + y(0) + ")")
+            .call(d3.axisBottom(x));
+        svg.append("g")
+            .attr("transform", "translate(" + margin.left + ",0)")
+            .call(d3.axisLeft(y));
+        function stackMin(serie) {
+          return d3.min(serie, function(d) { return d[0]; });
+        }
+        function stackMax(serie) {
+          return d3.max(serie, function(d) { return d[1]; });
+        }
+        </script>
+
+
+
+</html>
+
+
+
+
+
+
