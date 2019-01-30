@@ -28,7 +28,7 @@ We want to **test** and use the **gradient boosting** model, and as it is a supe
 
 ##### Data transformation
 
-We use gradient boosting algorithm and it excepts a fixed-length array of numbers (not strings). So in order to transform a tweet to a fixed-length-numeric array we use a technique called **Bag of Word (BOW)** i.e. we hash the words into that array and in the end we get an array which represents the count of each word in the tweet. The implementation of this is done by function called **HashingTF**. The length of this array is something which is possible to **boost**, 2000 seems a good value to start.
+We use gradient boosting algorithm and it accepts a fixed-length array of numbers (not strings). So in order to transform a tweet to a fixed-length-numeric array we use a technique called **Bag of Word (BOW)** i.e. we hash the words into that array and in the end we get an array which represents the count of each word in the tweet. The implementation of this is done by function called **HashingTF**. The length of this array is something which is possible to **boost**, 2000 seems a good value to start.
 
 ##### Build and evaluate the model
 
