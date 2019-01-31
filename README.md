@@ -34,7 +34,7 @@ We use gradient boosting algorithm and it accepts a fixed-length array of number
 
 First we split the dataset into training and testing set and we finally apply Gradient Boosting, the parameters in which we can tweak to take into account are (1) **percentage of splitting** between the two sets, (2) **number of iterations** over the data and (3) **maximum deep** of each tree. For example here there is the flow of the errors and relative over-fitting on the changing of the MaxDepth.
 
-![maxDepth_flow](/home/jave/Documents/Madrid_eit_uni/mini-project-2/Sentiment-Analysis/img/maxDepth_flow.png)
+![maxDepth_flow](img/maxDepth_flow.png)
 
 As you can see the errors decrease but the over-fitting increases.
 
