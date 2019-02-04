@@ -2,7 +2,7 @@
 
 In this project it is implement a model for a simple **sentiment analysis** on **tweets**, using **Spark**, **NLP**, **HDFS** and **Scala**, and there is also a simpler version in **Java** without the NLP part.
 
-This analysis is structured in a sequence of steps and in which it is implemented a process for determining the attitude (**positive** or **negative**) of the writer with respect to a particular topic. In particular, in this case the model produced focuses on the classification of each distinct tweet over a polarity as **happy** or **sad**.
+This analysis is structured in a sequence of steps and in which it is implemented a process for determining the attitude (**positive** or **negative**) of the writer with respect to a particular topic. In particular, in this case the model produced focuses on the classification of each distinct tweet over a polarity as **happy** or **sad**.
 
 ## Technologies and Algorithms 
 
@@ -10,9 +10,9 @@ This analysis is structured in a sequence of steps and in which it is implemente
 - **[Scala](https://www.scala-lang.org/download/)**: Easier to use than Java.
 - **[Java](https://www.java.com/en/)**: Maybe is not the best language to use in this case, but it is the most popular.
 - [**John Snow - Spark-nlp**](https://github.com/JohnSnowLabs/spark-nlp):  **Natural language processing** libraries for Apache Spark. In this project it is used a simple pipeline, (pre-trained with a labeled dataset *trainNLP.csv*), for label our training set with a the polarity **negative** associated with **sad** and **positive** associated with **happy**.
-- **RDD, Dataset, Dataframe**: The main abstraction Spark provides is a Resilient Distributed Dataset which is a collection of elements partitioned across the nodes of the cluster that can be operated on in parallel. A Dataset is a distributed collection of data which benefitts of the optimized execution engine provided by SparkSQL. A DataFrame is a Dataset organized into named columns, which is conceptually equivalent to a table in a relational database.
-- **Gradient Boosting**: In order to build a predictive model for this project, it was used a machine learning boosting technique called, *Gradient Boosting*. 
-- **Bag of Words - HashingTF**: The Bag-of-Words model (BoW) is a way of representing text data in Natural Language Processing (NPL) and extracting features from text to use in modeling.
+- **[RDD, Dataset, Dataframe](http://spark.apache.org/)**: The main abstraction Spark provides is a Resilient Distributed Dataset which is a collection of elements partitioned across the nodes of the cluster that can be operated on in parallel. A Dataset is a distributed collection of data which benefitts of the optimized execution engine provided by SparkSQL. A DataFrame is a Dataset organized into named columns, which is conceptually equivalent to a table in a relational database.
+- **[Gradient Boosting](https://en.wikipedia.org/wiki/Gradient_boosting)**: In order to build a predictive model for this project, it was used a machine learning boosting technique called, *Gradient Boosting*. 
+- **[Bag of Words](https://en.wikipedia.org/wiki/Bag-of-words_model)**: The Bag-of-Words model (BoW) is a way of representing text data in Natural Language Processing (NPL) and extracting features from text to use in modeling.
 - **[HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html)**: Spark is an optimal choice for big data processing, although it does not come with its own le management system, so we considered Hadoop Distributed File System(HDFS).
 - **[D3.js](https://d3js.org/)**: Finally, regarding the visualisation of the results coming from the analysis, it was chosen a JavaScript library, D3.js, which focused in manipulating documents based on data. In the file **HTML** there are some examples used to several database.
 
