@@ -18,6 +18,7 @@ This analysis is structured in a sequence of steps and in which it is implemente
 
 ## Implementation
 
+
 ##### From raw data to Dataset
 
 In this code we use a big dataset with a lot of columns, but we care only about the text, so we select only that column. Of course this part of code is very different for every dataset we use.
