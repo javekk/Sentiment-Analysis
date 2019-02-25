@@ -4,6 +4,7 @@ In this project it is implement a model for a simple **sentiment analysis** on *
 
 This analysis is structured in a sequence of steps and in which it is implemented a process for determining the attitude (**positive** or **negative**) of the writer with respect to a particular topic. In particular, in this case the model produced focuses on the classification of each distinct tweet over a polarity as **happy** or **sad**.
 
+
 ## Technologies and Algorithms 
 
 - **[Apache Spark](http://spark.apache.org/)**: The project has being developed on top of an open-source cluster-computing framework, Apache Spark, which is an unied analytic engine for large-scale data processing. 
