@@ -8,7 +8,7 @@ This analysis is structured in a sequence of steps and in which it is implemente
 ## Technologies and Algorithms 
 
 
-- **[Apache Spark](http://spark.apache.org/)**: The project has being developed on top of an open-source cluster-computing framework, Apache Spark, which is an unied analytic engine for large-scale data processing. 
+- **[Apache Spark](http://spark.apache.org/)**: The project has being developed on top of an open-source cluster-computing framework, Apache Spark, which is an analytic engine for large-scale data processing. 
 - **[Scala](https://www.scala-lang.org/download/)**: Easier to use than Java.
 - **[Java](https://www.java.com/en/)**: Maybe is not the best language to use in this case, but it is the most popular.
 - [**John Snow - Spark-nlp**](https://github.com/JohnSnowLabs/spark-nlp):  **Natural language processing** libraries for Apache Spark. In this project it is used a simple pipeline, (pre-trained with a labeled dataset *trainNLP.csv*), for label our training set with a the polarity **negative** associated with **sad** and **positive** associated with **happy**.
